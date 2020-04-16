@@ -31,7 +31,7 @@ defmodule EnumOperations do
   def concat([[] | tt]) do
     concat(tt)
   end
-  
+
   def concat([[h | t] | tt]) do
     [h | concat([t | tt])]
   end
@@ -58,6 +58,7 @@ defmodule EnumOperations do
 
   defp count(n, c) do
     aux = tl(n)
+
     if aux != [] do
       count(aux, c + 1)
     else
@@ -81,21 +82,23 @@ defmodule FizzBuzz do
   def fuzzle(a, b, c) do
     if a == 0 and b == 0 and c != 0 do
       "FizzBuzz"
-    else if a == 0 and b != 0 and c != 0 do
-      "Fizz"
-    else if a != 0 and b == 0 and c != 0 do
-      "Buzz"
     else
-      c
-    end
-    end
+      if a == 0 and b != 0 and c != 0 do
+        "Fizz"
+      else
+        if a != 0 and b == 0 and c != 0 do
+          "Buzz"
+        else
+          c
+        end
+      end
     end
   end
 end
 
 defmodule WordCount do
   def word_count(p) do
-    String.split(p) |>
-    Enum.reduce(%{}, fn x, acc -> Map.update(acc, x, 1, &(&1 + 1)) end)
+    String.split(p)
+    |> Enum.reduce(%{}, fn x, acc -> Map.update(acc, x, 1, &(&1 + 1)) end)
   end
 end
