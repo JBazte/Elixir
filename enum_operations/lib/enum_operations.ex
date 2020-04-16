@@ -75,19 +75,6 @@ defmodule EnumOperations do
       l
     end
   end
-
-  # defp filter(l, r, list) do
-  #   if tl(l) != [] do
-  #     aux = tl(l)
-  #     num = rem hd(l), r
-  #     if num == 0 do
-  #       filter(aux, r, list ++ [hd(l)])
-  #     else
-  #     filter(aux, r, list)
-  #     end
-  #   end
-  #   list ++ [hd(l)]
-  # end
 end
 
 defmodule FizzBuzz do
