@@ -21,15 +21,25 @@ defmodule EnumOperations do
   end
 
   def reverse(n) do
-    list = []
-    reverse(n, list)
+    reverse(n, [])
   end
 
-  def concat(n) do
-    list = []
-    concat(n, list)
+  def concat([]) do
+    []
+  end
+
+  def concat([[] | tt]) do
+    concat(tt)
   end
   
+  def concat([[h | t] | tt]) do
+    [h | concat([t | tt])]
+  end
+
+  def filter(l, r) do
+    filter(l, r, [])
+  end
+
   defp count(n, c) do
     aux = tl(n)
     if aux != [] do
@@ -50,19 +60,39 @@ defmodule EnumOperations do
     end
   end
 
-  defp concat(n, l) do
-    if tl(n) != [] do
-      aux = tl(n)
-      for x <- hd(n) do
-        l = l ++ x
-        IO.puts l
+  defp filter(l, r, list) do
+    if tl(l) != [] do
+      aux = tl(l)
+      num = rem hd(l), r
+      if num == 0 do
+        filter(aux, r, list ++ [hd(l)])
+      else
+      filter(aux, r, list)
       end
-      concat(aux, l)
-    else
-      for x <- hd(n) do
-        l = l ++ x
-      end
-      l
     end
+    list ++ [hd(l)]
+  end
+end
+
+defmodule FizzBuzz do
+  def fuzzle(a, b, c) do
+    if a == 0 and b == 0 and c != 0 do
+      "FizzBuzz"
+    else if a == 0 and b != 0 and c != 0 do
+      "Fizz"
+    else if a != 0 and b == 0 and c != 0 do
+      "Buzz"
+    else
+      c
+    end
+    end
+    end
+  end
+end
+
+defmodule WordCount do
+  def word_count(p) do
+    String.split(p) |>
+    Enum.reduce(%{}, fn x, acc -> Map.update(acc, x, 1, &(&1 + 1)) end)
   end
 end
