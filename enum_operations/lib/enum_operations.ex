@@ -36,8 +36,24 @@ defmodule EnumOperations do
     [h | concat([t | tt])]
   end
 
-  def filter(l, r) do
-    filter(l, r, [])
+  def filter([[] | t], r) do
+    if t != [] do
+      filter(t, r)
+    else
+      []
+    end
+  end
+
+  def filter([h | t], r) do
+    if r.(h) do
+      if t != [] do
+        [h | filter(t, r)]
+      else
+        [h]
+      end
+    else
+      filter([[] | t], r)
+    end
   end
 
   defp count(n, c) do
@@ -60,18 +76,18 @@ defmodule EnumOperations do
     end
   end
 
-  defp filter(l, r, list) do
-    if tl(l) != [] do
-      aux = tl(l)
-      num = rem hd(l), r
-      if num == 0 do
-        filter(aux, r, list ++ [hd(l)])
-      else
-      filter(aux, r, list)
-      end
-    end
-    list ++ [hd(l)]
-  end
+  # defp filter(l, r, list) do
+  #   if tl(l) != [] do
+  #     aux = tl(l)
+  #     num = rem hd(l), r
+  #     if num == 0 do
+  #       filter(aux, r, list ++ [hd(l)])
+  #     else
+  #     filter(aux, r, list)
+  #     end
+  #   end
+  #   list ++ [hd(l)]
+  # end
 end
 
 defmodule FizzBuzz do
