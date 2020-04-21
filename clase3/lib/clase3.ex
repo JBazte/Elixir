@@ -29,13 +29,13 @@ defmodule FizzBuzz do
 
       iex> FizzBuzz.fuzzle_cond(0,0,1)
       "FizzBuzz"
-      
+
       iex> FizzBuzz.fuzzle_cond(0,1,1)
       "Fizz"
-      
+
       iex> FizzBuzz.fuzzle_cond(1,0,1)
       "Buzz"
-      
+
       iex> FizzBuzz.fuzzle_cond(1,1,0)
       0
 
@@ -57,13 +57,13 @@ defmodule FizzBuzz do
 
       iex> FizzBuzz.fuzzle_case(0,0,1)
       "FizzBuzz"
-      
+
       iex> FizzBuzz.fuzzle_case(0,1,1)
       "Fizz"
-      
+
       iex> FizzBuzz.fuzzle_case(1,0,1)
       "Buzz"
-      
+
       iex> FizzBuzz.fuzzle_case(1,1,0)
       0
 
@@ -91,22 +91,22 @@ defmodule ApiResponse do
 
       iex> ApiResponse.handle_response_1({:ok, %{num: 1}})
       "Ok"
-      
+
       iex> ApiResponse.handle_response_1({:error, %{num: 2}})
       "Error"
-      
+
       iex> ApiResponse.handle_response_1({:what, %{num: 3}})
       :no_match_message_error
 
   """
-  def handle_response_1(tup) do
-    if elem(tup, 0) == :ok do
+  def handle_response_1({status, _response}) do
+    if status == :ok do
       "Ok"
     else
-      if elem(tup, 0) == :error do
+      if status == :error do
         "Error"
       else
-        if elem(tup, 0) == :what do
+        if status == :what do
           :no_match_message_error
         end
       end
@@ -120,20 +120,20 @@ defmodule ApiResponse do
 
       iex> ApiResponse.handle_response_2({:ok, %{num: 1}})
       "Ok"
-      
+
       iex> ApiResponse.handle_response_2({:error, %{num: 2}})
       "Error"
-      
+
       iex> ApiResponse.handle_response_2({:what, %{num: 3}})
       :no_match_message_error
 
   """
 
-  def handle_response_2(tup) do
+  def handle_response_2({status, _response}) do
     cond do
-      elem(tup, 0) == :ok -> "Ok"
-      elem(tup, 0) == :error -> "Error"
-      elem(tup, 0) == :what -> :no_match_message_error
+      status == :ok -> "Ok"
+      status == :error -> "Error"
+      status == :what -> :no_match_message_error
     end
   end
 
@@ -144,17 +144,17 @@ defmodule ApiResponse do
 
       iex> ApiResponse.handle_response_3({:ok, %{num: 1}})
       "Ok"
-      
+
       iex> ApiResponse.handle_response_3({:error, %{num: 2}})
       "Error"
-      
+
       iex> ApiResponse.handle_response_3({:what, %{num: 3}})
       :no_match_message_error
 
   """
 
-  def handle_response_3(tup) do
-    case {elem(tup, 0)} do
+  def handle_response_3({status, _response}) do
+    case {status} do
       {:ok} -> "Ok"
       {:error} -> "Error"
       {:what} -> :no_match_message_error
@@ -168,24 +168,24 @@ defmodule ApiResponse do
 
       iex> ApiResponse.handle_response_4({:ok, %{num: 1}})
       "Ok"
-      
+
       iex> ApiResponse.handle_response_4({:error, %{num: 2}})
       "Error"
-      
+
       iex> ApiResponse.handle_response_4({:what, %{num: 3}})
       :no_match_message_error
 
   """
 
-  def handle_response_4(tup) when elem(tup, 0) == :ok do
+  def handle_response_4({status, _response}) when status == :ok do
     "Ok"
   end
 
-  def handle_response_4(tup) when elem(tup, 0) == :error do
+  def handle_response_4({status, _response}) when status == :error do
     "Error"
   end
 
-  def handle_response_4(tup) when elem(tup, 0) == :what do
+  def handle_response_4({status, _response}) when status == :what do
     :no_match_message_error
   end
 end
