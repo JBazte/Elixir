@@ -59,4 +59,24 @@ defmodule Truco.Game do
 
     [%Player{cards: cards_1}, %Player{cards: cards_2}]
   end
+
+  def deal(deck, [%Player{cards: []} = player_1, %Player{cards: []} = player_2]) do
+    [cards_1, cards_2 | _res] =
+      deck
+      |> Enum.chunk_every(3)
+
+    [%Player{player_1 | cards: cards_1}, %Player{player_2 | cards: cards_2}]
+  end
+
+  def save_name([player_1, player_2]) do
+    name_1 =
+      IO.gets("\nWhat is your name?\nMy name is: ")
+      |> String.trim()
+
+    if name_1 == "" do
+      save_name([player_1, player_2])
+    else
+      [%Player{player_1 | name: name_1}, player_2]
+    end
+  end
 end

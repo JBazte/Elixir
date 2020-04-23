@@ -4,11 +4,12 @@ defmodule Truco do
   alias Truco.Card
 
   def play do
-    IO.puts("Welcome to Truco")
+    IO.puts("Welcome to Truco\n")
 
     Game.create_deck()
     |> Game.shuffle()
     |> Game.deal()
+    |> Game.save_name()
     |> play_hand()
   end
 
@@ -24,8 +25,9 @@ defmodule Truco do
         [%Player{player_1 | score_hand: 0}, %Player{player_2 | score: score_2 + 1, score_hand: 0}]
 
       true ->
-        "Empate"
+        [player_1, player_2]
     end
+    |> check()
   end
 
   def play_hand(list_players) do
@@ -36,8 +38,15 @@ defmodule Truco do
     |> check
   end
 
+  def play_new_hand(list_players) do
+    Game.create_deck()
+    |> Game.shuffle()
+    |> Game.deal(list_players)
+    |> play_hand()
+  end
+
   def choose([%Player{cards: cards_1} = player_1, %Player{cards: cards_2} = player_2]) do
-    IO.puts("Here are yours cards")
+    IO.puts("Here are your cards:\n")
 
     cards_1
     |> Enum.map(fn %Card{name: name} -> IO.puts(name) end)
@@ -45,8 +54,7 @@ defmodule Truco do
     # TODO: We should add the index here
     # TODO: Add name player
 
-    IO.puts("Choose your card")
-    index = IO.gets("Cual quieres elegir?\n(1,2 o 3)\n\nElije el numero ")
+    index = IO.gets("\nChoose a card\n(1,2 o 3)\n\nYou chose: ")
     {card_number_player_1, _} = Integer.parse(index)
 
     card_player_1 =
@@ -88,16 +96,33 @@ defmodule Truco do
       ) do
     case status do
       :win ->
-        IO.puts("Hand Win!!!!!!")
+        IO.puts("\nHand Win!!!!!!\n-----------------\n")
         [%Player{player_1 | score_hand: score_hand_1 + 1}, player_2]
 
       :loose ->
-        IO.puts("Hand Lose!!!!!!")
+        IO.puts("\nHand Lose!!!!!!\n-----------------\n")
         [player_1, %Player{player_2 | score_hand: score_hand_2 + 1}]
 
       :tie ->
-        IO.puts("Hand Tie!!!!!!")
+        IO.puts("\nHand Tie!!!!!!\n-----------------\n")
         [player_1, player_2]
+    end
+  end
+
+  def check([
+        %Player{cards: [], score: score_1, name: name_1} = player_1,
+        %Player{cards: [], score: score_2} = player_2
+      ]) do
+    if score_1 + score_2 == 3 do
+      # TODO: Cambiar cond
+      if score_1 > score_2 do
+        IO.puts("#{name_1} you won!! :DD\n")
+      else
+        IO.puts("#{name_1} you lost!! :CC\n")
+      end
+    else
+      [player_1, player_2]
+      |> play_new_hand()
     end
   end
 
