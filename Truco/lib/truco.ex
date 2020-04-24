@@ -51,9 +51,6 @@ defmodule Truco do
     cards_1
     |> Enum.map(fn %Card{name: name} -> IO.puts(name) end)
 
-    # TODO: We should add the index here
-    # TODO: Add name player
-
     index = IO.gets("\nChoose a card\n(1,2 o 3)\n\nYou chose: ")
     {card_number_player_1, _} = Integer.parse(index)
 
@@ -114,7 +111,6 @@ defmodule Truco do
         %Player{cards: [], score: score_2} = player_2
       ]) do
     if score_1 + score_2 == 3 do
-      # TODO: Cambiar cond
       if score_1 > score_2 do
         IO.puts("#{name_1} you won!! :DD\n")
       else

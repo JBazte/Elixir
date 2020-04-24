@@ -53,7 +53,7 @@ defmodule Truco.Game do
   end
 
   def deal(deck) do
-    [cards_1, cards_2 | _res] =
+    [cards_1, cards_2 | _tail] =
       deck
       |> Enum.chunk_every(3)
 
@@ -61,7 +61,7 @@ defmodule Truco.Game do
   end
 
   def deal(deck, [%Player{cards: []} = player_1, %Player{cards: []} = player_2]) do
-    [cards_1, cards_2 | _res] =
+    [cards_1, cards_2 | _tail] =
       deck
       |> Enum.chunk_every(3)
 
